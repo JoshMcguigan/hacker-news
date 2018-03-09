@@ -4,11 +4,29 @@ import {getTopStories, loadStoryDetails} from "./actions";
 
 class App extends Component {
 
+    constructor(){
+        super();
+        this.state = {
+            activeStoryId: null
+        }
+    }
+
     async componentDidMount(){
         this.props.getTopStories();
     }
 
+    setActiveStory(storyId){
+        this.setState({
+            activeStoryId: storyId
+        });
+        this.props.dispatch(this.props.loadStoryDetails(storyId).action);
+    }
+
     render() {
+
+        console.log('rendering');
+        console.log(this.props.loadStoryDetails(this.state.activeStoryId).state(this.props.state));
+
         return (
             <div style={{display: 'flex', margin: '5%'}}>
                 <div>
@@ -16,17 +34,17 @@ class App extends Component {
                         <p
                             className='clickable'
                             key={storyId}
-                            onClick={()=>this.props.loadStoryDetails(storyId)}
+                            onClick={()=>this.setActiveStory(storyId)}
                         >{index} - {storyId}</p>
                     )}
                 </div>
                 <div>
                     {
-                        this.props.activeStory &&
-                        <p>{this.props.activeStory.title}</p>
+                        this.props.loadStoryDetails(this.state.activeStoryId).state(this.props.state) &&
+                        <p>{this.props.loadStoryDetails(this.state.activeStoryId).state(this.props.state).title}</p>
                     }
                     {
-                        !this.props.activeStory &&
+                        !this.props.loadStoryDetails(this.state.activeStoryId).state(this.props.state) &&
                         <p>No story selected</p>
                     }
                 </div>
@@ -37,7 +55,7 @@ class App extends Component {
 const mapStateToProps = state => {
     return {
         bestStories: getTopStories().state(state),
-        activeStory: loadStoryDetails().state(state)
+        state: state
     }
 };
 
@@ -46,9 +64,8 @@ const mapDispatchToProps = dispatch => {
         getTopStories: () => {
             dispatch(getTopStories().action)
         },
-        loadStoryDetails: (storyId) => {
-            dispatch(loadStoryDetails(storyId).action)
-        }
+        dispatch: dispatch,
+        loadStoryDetails
     }
 };
 
