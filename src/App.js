@@ -19,13 +19,13 @@ class App extends Component {
         this.setState({
             activeStoryId: storyId
         });
-        this.props.dispatch(this.props.loadStoryDetails(storyId).action);
+        this.props.dispatch(loadStoryDetails(storyId).action);
     }
 
     render() {
 
         console.log('rendering');
-        console.log(this.props.loadStoryDetails(this.state.activeStoryId).state(this.props.state));
+        console.log(loadStoryDetails(this.state.activeStoryId).state(this.props.state));
 
         return (
             <div style={{display: 'flex', margin: '5%'}}>
@@ -40,11 +40,11 @@ class App extends Component {
                 </div>
                 <div>
                     {
-                        this.props.loadStoryDetails(this.state.activeStoryId).state(this.props.state) &&
-                        <p>{this.props.loadStoryDetails(this.state.activeStoryId).state(this.props.state).title}</p>
+                        loadStoryDetails(this.state.activeStoryId).state(this.props.state) &&
+                        <p>{loadStoryDetails(this.state.activeStoryId).state(this.props.state).title}</p>
                     }
                     {
-                        !this.props.loadStoryDetails(this.state.activeStoryId).state(this.props.state) &&
+                        !loadStoryDetails(this.state.activeStoryId).state(this.props.state) &&
                         <p>No story selected</p>
                     }
                 </div>
@@ -64,8 +64,7 @@ const mapDispatchToProps = dispatch => {
         getTopStories: () => {
             dispatch(getTopStories().action)
         },
-        dispatch: dispatch,
-        loadStoryDetails
+        dispatch: dispatch
     }
 };
 
