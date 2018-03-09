@@ -36,7 +36,7 @@ class App extends Component {
 }
 const mapStateToProps = state => {
     return {
-        bestStories: state.bestStories,
+        bestStories: getTopStories().state(state),
         activeStory: state.activeStory
     }
 };
@@ -44,7 +44,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         getTopStories: () => {
-            dispatch(getTopStories())
+            dispatch(getTopStories().action)
         },
         loadStoryDetails: (storyId) => {
             dispatch(loadStoryDetails(storyId))
