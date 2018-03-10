@@ -4,11 +4,12 @@ import App from './App';
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import {applyMiddleware, createStore} from 'redux'
-import reducer from './reducer'
 import ReduxThunk from 'redux-thunk'
+import {combineReducers} from "redux";
+import rr from './redux-rest'
 
 const store = createStore(
-    reducer,
+    combineReducers({API_CALL: rr.reducer}),
     applyMiddleware(
         ReduxThunk
     )
