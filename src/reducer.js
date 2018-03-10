@@ -1,20 +1,11 @@
-const defaultState = {
-    getTopStoriesState: [],
-    activeStory: null
-};
-
-const reducer = (state = defaultState, action) => {
+const reducer = (state = {}, action) => {
 
     console.log(action);
 
     let newState = {...state};
 
-    if (action.type ==='bestStoriesLoaded'){
-        newState.getTopStoriesState = action.data
-    }
-
-    if (action.type ==='storyLoaded'){
-        newState[action.storyId] = action.data
+    if(action.type === 'API_CALL'){
+        newState[action.url] = action.data;
     }
 
     return newState;

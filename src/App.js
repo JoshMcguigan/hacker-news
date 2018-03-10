@@ -24,18 +24,22 @@ class App extends Component {
 
     render() {
 
+        const topStories = this.props.getTopStoriesState();
         const storyDetails = this.props.loadStoryDetailsState(this.state.activeStoryId);
 
         return (
             <div style={{display: 'flex', margin: '5%'}}>
                 <div>
-                    {this.props.getTopStoriesState().map((storyId, index)=>
-                        <p
-                            className='clickable'
-                            key={storyId}
-                            onClick={()=>this.setActiveStory(storyId)}
-                        >{index} - {storyId}</p>
-                    )}
+                    {
+                        topStories &&
+                        topStories.map((storyId, index)=>
+                            <p
+                                className='clickable'
+                                key={storyId}
+                                onClick={()=>this.setActiveStory(storyId)}
+                            >{index} - {storyId}</p>
+                        )
+                    }
                 </div>
                 <div>
                     {
