@@ -11,7 +11,7 @@ class App extends Component {
         }
     }
 
-    async componentDidMount(){
+    componentDidMount(){
         this.props.request.topStories();
     }
 
