@@ -16,4 +16,8 @@ body {
     display: flex;
 }
 
+#appContainer > * {
+    margin: 0 5%;
+}
+
 

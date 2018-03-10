@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
-import {getTopStories, loadStoryDetails} from "./actions";
+import api from "./actions";
+import rr from "./redux-rest";
 
 class App extends Component {
 
@@ -12,21 +12,21 @@ class App extends Component {
     }
 
     async componentDidMount(){
-        this.props.getTopStoriesAction();
+        this.props.request.topStories();
     }
 
     setActiveStory(storyId){
         this.setState({
             activeStoryId: storyId
         });
-        this.props.loadStoryDetailsAction(storyId);
+        this.props.request.storyDetails(storyId);
     }
 
     render() {
 
         const {activeStoryId} = this.state;
-        const topStories = this.props.getTopStoriesState();
-        const storyDetails = activeStoryId ? this.props.loadStoryDetailsState(activeStoryId) : null;
+        const topStories = this.props.retrieve.topStories();
+        const storyDetails = activeStoryId ? this.props.retrieve.storyDetails(activeStoryId) : null;
 
         return (
             <div id='appContainer'>
@@ -60,22 +60,26 @@ class App extends Component {
                         <p>Loading story details..</p>
                     }
                 </div>
+                <div>
+                    <p>{this.props.testProp}</p>
+                    <p>{this.props.testPropTwo}</p>
+                </div>
             </div>
         );
     }
 }
+
 const mapStateToProps = state => {
     return {
-        getTopStoriesState: getTopStories.state(state),
-        loadStoryDetailsState: loadStoryDetails.state(state)
+        testProp: 'testing test prop'
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        getTopStoriesAction: (...args) => dispatch(getTopStories.action(...args)),
-        loadStoryDetailsAction: (...args) => dispatch(loadStoryDetails.action(...args))
+        testPropTwo: 'testing prop 2'
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+// the mapStateToProps and mapDispatchToProps arguments here are optional, in case you need to add additional redux state
+export default rr.connect(api, mapStateToProps, mapDispatchToProps)(App);
