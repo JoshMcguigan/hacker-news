@@ -28,8 +28,12 @@ class App extends Component {
         const storyDetails = this.props.loadStoryDetailsState(this.state.activeStoryId);
 
         return (
-            <div style={{display: 'flex', margin: '5%'}}>
+            <div id='appContainer'>
                 <div>
+                    {
+                        topStories.isLoading &&
+                        <p>Loading top stories..</p>
+                    }
                     {
                         topStories.data &&
                         topStories.data.map((storyId, index)=>
@@ -47,8 +51,12 @@ class App extends Component {
                         <p>{storyDetails.data.title}</p>
                     }
                     {
-                        !storyDetails.data &&
+                        !storyDetails.isInitialized &&
                         <p>No story selected</p>
+                    }
+                    {
+                        storyDetails.isLoading &&
+                        <p>Loading story details..</p>
                     }
                 </div>
             </div>
