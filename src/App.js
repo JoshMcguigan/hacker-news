@@ -12,7 +12,7 @@ class App extends Component {
     }
 
     async componentDidMount(){
-        this.props.getTopStories();
+        this.props.getTopStoriesAction();
     }
 
     setActiveStory(storyId){
@@ -24,15 +24,12 @@ class App extends Component {
 
     render() {
 
-        console.log('rendering');
-        console.log(this.props);
-
         const storyDetails = this.props.loadStoryDetailsState(this.state.activeStoryId);
 
         return (
             <div style={{display: 'flex', margin: '5%'}}>
                 <div>
-                    {this.props.bestStories.map((storyId, index)=>
+                    {this.props.getTopStoriesState().map((storyId, index)=>
                         <p
                             className='clickable'
                             key={storyId}
@@ -56,15 +53,15 @@ class App extends Component {
 }
 const mapStateToProps = state => {
     return {
-        bestStories: getTopStories().state(state),
+        getTopStoriesState: getTopStories.state(state),
         loadStoryDetailsState: loadStoryDetails.state(state)
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        getTopStories: () => dispatch(getTopStories().action),
-        loadStoryDetailsAction: (storyId)=>dispatch(loadStoryDetails.action(storyId))
+        getTopStoriesAction: () => dispatch(getTopStories.action()),
+        loadStoryDetailsAction: (storyId) => dispatch(loadStoryDetails.action(storyId))
     }
 };
 

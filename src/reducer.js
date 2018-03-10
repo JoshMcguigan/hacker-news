@@ -1,5 +1,5 @@
 const defaultState = {
-    bestStories: [],
+    getTopStoriesState: [],
     activeStory: null
 };
 
@@ -10,7 +10,7 @@ const reducer = (state = defaultState, action) => {
     let newState = {...state};
 
     if (action.type ==='bestStoriesLoaded'){
-        newState.bestStories = action.data
+        newState.getTopStoriesState = action.data
     }
 
     if (action.type ==='storyLoaded'){
