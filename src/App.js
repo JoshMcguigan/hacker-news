@@ -31,8 +31,8 @@ class App extends Component {
             <div style={{display: 'flex', margin: '5%'}}>
                 <div>
                     {
-                        topStories &&
-                        topStories.map((storyId, index)=>
+                        topStories.data &&
+                        topStories.data.map((storyId, index)=>
                             <p
                                 className='clickable'
                                 key={storyId}
@@ -43,11 +43,11 @@ class App extends Component {
                 </div>
                 <div>
                     {
-                        storyDetails &&
-                        <p>{storyDetails.title}</p>
+                        storyDetails.data &&
+                        <p>{storyDetails.data.title}</p>
                     }
                     {
-                        !storyDetails &&
+                        !storyDetails.data &&
                         <p>No story selected</p>
                     }
                 </div>

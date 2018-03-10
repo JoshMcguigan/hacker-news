@@ -2,13 +2,11 @@ const reducer = (state = {}, action) => {
 
     console.log(action);
 
-    let newState = {...state};
-
     if(action.type === 'API_CALL'){
-        newState[action.url] = action.data;
+        return {...state, [action.url]: {data: action.data}};
     }
 
-    return newState;
+    return state;
 };
 
 export default reducer;

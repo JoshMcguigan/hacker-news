@@ -30,7 +30,7 @@ export const loadStoryDetails =
         state: (state) => {
             return (storyId) => {
                 const url = `https://hacker-news.firebaseio.com/v0/item/${storyId}.json`;
-                return state[url];
+                return state[url] ? state[url] : {isInitialized: false, isLoading: false, error: '', data: undefined};
             };
         }
     };
@@ -48,7 +48,7 @@ export const getTopStories =
         state: (state) => {
             return () => {
                 const url = 'https://hacker-news.firebaseio.com/v0/topstories.json';
-                return state[url];
+                return state[url] ? state[url] : {isInitialized: false, isLoading: false, error: '', data: undefined};
             }
         }
     };
