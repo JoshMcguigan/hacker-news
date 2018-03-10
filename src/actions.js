@@ -22,9 +22,15 @@ export const loadStoryDetails =
         action: (storyId) => {
             return async (dispatch, getState) => {
                 const url = `https://hacker-news.firebaseio.com/v0/item/${storyId}.json`;
-                const res = await axios.get(url);
-                const data = res.data;
-                dispatch({type: 'API_CALL', url, data})
+                dispatch({type: 'API_CALL', state: 'LOADING', url});
+                try {
+                    const res = await axios.get(url);
+                    const data = res.data;
+                    dispatch({type: 'API_CALL', state: 'SUCCESS', url, data});
+                } catch(e) {
+                    const error = e.toString();
+                    dispatch({type: 'API_CALL', state: 'ERROR', url, error});
+                }
             };
         },
         state: (state) => {
@@ -40,9 +46,15 @@ export const getTopStories =
         action: () => {
             return async (dispatch, getState) => {
                 const url = 'https://hacker-news.firebaseio.com/v0/topstories.json';
-                const res = await axios.get(url);
-                const data = res.data;
-                dispatch({type: 'API_CALL', url, data});
+                dispatch({type: 'API_CALL', state: 'LOADING', url});
+                try {
+                    const res = await axios.get(url);
+                    const data = res.data;
+                    dispatch({type: 'API_CALL', state: 'SUCCESS', url, data});
+                } catch(e) {
+                    const error = e.toString();
+                    dispatch({type: 'API_CALL', state: 'ERROR', url, error});
+                }
             }
         },
         state: (state) => {
