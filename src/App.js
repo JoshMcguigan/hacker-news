@@ -19,13 +19,14 @@ class App extends Component {
         this.setState({
             activeStoryId: storyId
         });
-        this.props.loadStoryDetailsAction({urlParameters: [storyId]});
+        this.props.loadStoryDetailsAction(storyId);
     }
 
     render() {
 
+        const {activeStoryId} = this.state;
         const topStories = this.props.getTopStoriesState();
-        const storyDetails = this.props.loadStoryDetailsState({urlParameters: [this.state.activeStoryId]});
+        const storyDetails = activeStoryId ? this.props.loadStoryDetailsState(activeStoryId) : null;
 
         return (
             <div id='appContainer'>
@@ -47,15 +48,15 @@ class App extends Component {
                 </div>
                 <div>
                     {
-                        storyDetails.data &&
+                        activeStoryId && storyDetails.data &&
                         <p>{storyDetails.data.title}</p>
                     }
                     {
-                        !storyDetails.isInitialized &&
+                        (!activeStoryId || !storyDetails.isInitialized) &&
                         <p>No story selected</p>
                     }
                     {
-                        storyDetails.isLoading &&
+                        activeStoryId && storyDetails.isLoading &&
                         <p>Loading story details..</p>
                     }
                 </div>
@@ -72,8 +73,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        getTopStoriesAction: () => dispatch(getTopStories.action()),
-        loadStoryDetailsAction: (parameters) => dispatch(loadStoryDetails.action(parameters))
+        getTopStoriesAction: (...args) => dispatch(getTopStories.action(...args)),
+        loadStoryDetailsAction: (...args) => dispatch(loadStoryDetails.action(...args))
     }
 };
 

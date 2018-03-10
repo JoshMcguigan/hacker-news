@@ -1,23 +1,21 @@
 import axios from 'axios';
 
-const apiCall = (url) => {
-    const buildFullURL = (url, parameters) => {
-        // url = ['https://hacker-news.firebaseio.com/v0/item/', '.json']
-        // parameters = { urlParameters: ['1234'] }
-        let fullURL = url[0];
-        if(parameters && parameters.urlParameters){
-            parameters.urlParameters.forEach((parameter, i)=>{
-                fullURL += parameter + url[i+1];
-            });
-        }
-        // fullURL = 'https://hacker-news.firebaseio.com/v0/item/1234.json'
-        return fullURL;
-    };
+const urlBuilderZipper = (url, args) => {
+    // url = ['https://hacker-news.firebaseio.com/v0/item/', '.json']
+    // args = ['1234']
+    let fullURL = url[0];
+    args.forEach((arg, i)=>{
+        fullURL += arg + url[i+1];
+    });
+    // fullURL = 'https://hacker-news.firebaseio.com/v0/item/1234.json'
+    return fullURL;
+};
 
+const apiCall = (url, urlBuilder) => {
     return {
-        action: (parameters) => {
+        action: (...args) => {
             return async (dispatch, getState) => {
-                const fullURL = buildFullURL(url, parameters);
+                const fullURL = urlBuilder ? urlBuilder(url, args): url;
                 dispatch({type: 'API_CALL', state: 'LOADING', url: fullURL});
                 try {
                     const res = await axios.get(fullURL);
@@ -30,13 +28,13 @@ const apiCall = (url) => {
             };
         },
         state: (state) => {
-            return (parameters) => {
-                const fullURL = buildFullURL(url, parameters);
+            return (...args) => {
+                const fullURL = urlBuilder ? urlBuilder(url, args): url;
                 return state[fullURL] ? state[fullURL] : {isInitialized: false, isLoading: false, error: '', data: undefined};
             };
         }
     };
 };
 
-export const getTopStories = apiCall(['https://hacker-news.firebaseio.com/v0/topstories.json']);
-export const loadStoryDetails = apiCall(['https://hacker-news.firebaseio.com/v0/item/', '.json']);
+export const getTopStories = apiCall('https://hacker-news.firebaseio.com/v0/topstories.json');
+export const loadStoryDetails = apiCall(['https://hacker-news.firebaseio.com/v0/item/', '.json'], urlBuilderZipper);
