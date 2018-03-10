@@ -34,7 +34,7 @@ class App extends Component {
                         topStories.data &&
                         topStories.data.map((storyId, index)=>
                             <p
-                                className='clickable'
+                                className={'clickable' + ((this.state.activeStoryId===storyId) ? ' selected' : '')}
                                 key={storyId}
                                 onClick={()=>this.setActiveStory(storyId)}
                             >{index} - {storyId}</p>
