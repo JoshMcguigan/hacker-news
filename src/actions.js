@@ -3,7 +3,7 @@ import axios from 'axios';
 const apiCall = (url) => {
     const buildFullURL = (url, parameters) => {
         // url = ['https://hacker-news.firebaseio.com/v0/item/', '.json']
-        // parameters = ['1234']
+        // parameters = { urlParameters: ['1234'] }
         let fullURL = url[0];
         if(parameters && parameters.urlParameters){
             parameters.urlParameters.forEach((parameter, i)=>{
@@ -38,28 +38,5 @@ const apiCall = (url) => {
     };
 };
 
-export const loadStoryDetails =
-    {
-        action: (storyId) => {
-            return async (dispatch, getState) => {
-                const url = `https://hacker-news.firebaseio.com/v0/item/${storyId}.json`;
-                dispatch({type: 'API_CALL', state: 'LOADING', url});
-                try {
-                    const res = await axios.get(url);
-                    const data = res.data;
-                    dispatch({type: 'API_CALL', state: 'SUCCESS', url, data});
-                } catch(e) {
-                    const error = e.toString();
-                    dispatch({type: 'API_CALL', state: 'ERROR', url, error});
-                }
-            };
-        },
-        state: (state) => {
-            return (storyId) => {
-                const url = `https://hacker-news.firebaseio.com/v0/item/${storyId}.json`;
-                return state[url] ? state[url] : {isInitialized: false, isLoading: false, error: '', data: undefined};
-            };
-        }
-    };
-
 export const getTopStories = apiCall(['https://hacker-news.firebaseio.com/v0/topstories.json']);
+export const loadStoryDetails = apiCall(['https://hacker-news.firebaseio.com/v0/item/', '.json']);

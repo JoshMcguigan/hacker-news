@@ -19,13 +19,13 @@ class App extends Component {
         this.setState({
             activeStoryId: storyId
         });
-        this.props.loadStoryDetailsAction(storyId);
+        this.props.loadStoryDetailsAction({urlParameters: [storyId]});
     }
 
     render() {
 
         const topStories = this.props.getTopStoriesState();
-        const storyDetails = this.props.loadStoryDetailsState(this.state.activeStoryId);
+        const storyDetails = this.props.loadStoryDetailsState({urlParameters: [this.state.activeStoryId]});
 
         return (
             <div id='appContainer'>
@@ -73,7 +73,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         getTopStoriesAction: () => dispatch(getTopStories.action()),
-        loadStoryDetailsAction: (storyId) => dispatch(loadStoryDetails.action(storyId))
+        loadStoryDetailsAction: (parameters) => dispatch(loadStoryDetails.action(parameters))
     }
 };
 
