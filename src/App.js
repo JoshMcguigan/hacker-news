@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import api from "./actions";
 import rr from "./redux-rest";
+import Search from "./Search";
 
 class App extends Component {
 
@@ -61,8 +62,7 @@ class App extends Component {
                     }
                 </div>
                 <div>
-                    <p>{this.props.testProp}</p>
-                    <p>{this.props.testPropTwo}</p>
+                    <Search />
                 </div>
             </div>
         );
@@ -71,13 +71,13 @@ class App extends Component {
 
 const mapStateToProps = state => {
     return {
-        testProp: 'testing test prop'
+        exampleStateToProps: 'demo'
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        testPropTwo: 'testing prop 2'
+        exampleDispatchToProps: 'demo'
     }
 };
 
