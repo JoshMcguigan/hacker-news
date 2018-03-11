@@ -6,7 +6,7 @@ npm install
 npm start
 ```
 
-##Developer Documentation
+## Developer Documentation
 
 #### Connecting the API to components
 
