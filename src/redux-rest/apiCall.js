@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-const apiCall = (url, urlBuilder) => {
+const apiCall = (urlBuilder) => {
     return {
         request: (...args) => {
             return async (dispatch, getState) => {
-                const fullURL = urlBuilder ? urlBuilder(url, args): url;
+                const fullURL = (urlBuilder instanceof Function) ? urlBuilder(...args) : urlBuilder;
                 dispatch({type: 'API_CALL', state: 'LOADING', url: fullURL});
                 try {
                     const res = await axios.get(fullURL);
@@ -18,7 +18,7 @@ const apiCall = (url, urlBuilder) => {
         },
         retrieve: (state) => {
             return (...args) => {
-                const fullURL = urlBuilder ? urlBuilder(url, args): url;
+                const fullURL = (urlBuilder instanceof Function) ? urlBuilder(...args) : urlBuilder;
                 return state['API_CALL'][fullURL] ? state['API_CALL'][fullURL] : {isInitialized: false, isLoading: false, error: '', data: undefined};
             };
         }

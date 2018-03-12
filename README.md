@@ -61,33 +61,17 @@ For simple API calls, without any parameters, the setup is as shown below. If th
 const topStories = rr.apiCall('https://hacker-news.firebaseio.com/v0/topstories.json');
 ```
 
-For more complex URLs, containing either URL parameters or query parameters, apiCall takes two arguments. The first argument is either a string, object, or array representing the URL. The second argument is a URL builder function.
+For more complex URLs, containing either URL parameters or query parameters, apiCall takes a URL builder function as an argument.
 
-The URL builder function must take two arguments. The first is the string, array, or object representation of the URL given as the first argument to apiCall. The second is an array containing the arguments passed to the request or retrieve calls from within a component. An example is shown below:
+The URL builder function will be passed the arguments in the same order that they are passed to the calls to request and retrieve data within components. An example is shown below:
  
 ```
-const searchStories = rr.apiCall('http://hn.algolia.com/api/v1/search',
-        (url, [queryString])=>{
-            return `${url}?tags=story&query=${queryString}`;
-        }
-    );
+const searchStories = rr.apiCall(
+    (queryString)=>{
+        return `http://hn.algolia.com/api/v1/search?tags=story&query=${queryString}`;
+    }
+);
     
-// a component would trigger this request with this.props.request.searchStories('foo')
-```
-
-#### URL Builders
-
-A couple pre-made URL builders provide a convenient way to avoid writing a custom URL builder for common scenarios.
-
-```
-const storyDetails = rr.apiCall(['https://hacker-news.firebaseio.com/v0/item/', '.json'], rr.urlBuilders.zipper);
-// a component would trigger this request with this.props.request.storyDetails(storyId)
-
-const searchStories = rr.apiCall('http://hn.algolia.com/api/v1/search',
-        (url, [queryString])=>{
-            return rr.urlBuilders.queryParameterAppender(url, {query: queryString, tags: 'story'});
-        }
-    );
 // a component would trigger this request with this.props.request.searchStories('foo')
 ```
 
